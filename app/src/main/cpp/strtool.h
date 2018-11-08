@@ -1,0 +1,8 @@
+//
+// Created by ruiao on 2018/10/19.
+//
+
+#ifndef FASTBLE_MASTER_STRTOOL_H
+#define FASTBLE_MASTER_STRTOOL_H
+
+#endif //FASTBLE_MASTER_STRTOOL_H

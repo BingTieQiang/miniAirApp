@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.clj.blesample.ariset.AirSetActivity">
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.clj.blesample.ariset.MyRollPager
+
+        android:id="@+id/myviewpager"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="8">
+    </com.clj.blesample.ariset.MyRollPager>
+    <View
+        android:background="#cccccc"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
+    <RelativeLayout
+        android:layout_alignParentBottom="true"
+        android:id="@+id/cursorarea"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.5"
+        android:background="#DCDCDC">
+        <LinearLayout
+            android:background="#ffffff"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <!--四个部分都一样：ImageView + TextView-->
+            <RelativeLayout
+                android:id="@+id/rl_first_layout"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:gravity="center">
+                <ImageView
+                    android:id="@+id/iv_first_home"
+                    android:src="@drawable/icon_selfinfo_sel"
+                    android:layout_width="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/tv_first_home"
+                    android:textColor="@drawable/text_selector_color"
+                    android:text="实时数据"
+                    android:layout_below="@+id/iv_first_home"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center_horizontal"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_second_layout"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:gravity="center">
+                <ImageView
+                    android:id="@+id/iv_second_match"
+                    android:src="@drawable/peizhi"
+                    android:layout_centerHorizontal="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/tv_second_match"
+                    android:textColor="@drawable/text_selector_color"
+                    android:text="参数设置"
+                    android:layout_below="@+id/iv_second_match"
+                    android:layout_centerHorizontal="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_third_layout"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:gravity="center">
+                <ImageView
+                    android:id="@+id/iv_third_recommend"
+                    android:src="@drawable/wangluo"
+                    android:layout_centerHorizontal="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tv_third_recommend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/iv_third_recommend"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center_horizontal"
+                    android:text="网络设置"
+                    android:textColor="@drawable/text_selector_color" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_four_layout"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:gravity="center">
+                <ImageView
+
+                    android:id="@+id/iv_four_mine"
+                    android:src="@drawable/liangcheng"
+                    android:layout_centerHorizontal="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/tv_four_mine"
+                    android:textColor="@drawable/text_selector_color"
+                    android:text="量程校准"
+                    android:layout_below="@+id/iv_four_mine"
+                    android:layout_centerHorizontal="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"/>
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/rl_fif_layout"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:gravity="center">
+                <ImageView
+
+                    android:id="@+id/iv_fif_mine"
+                    android:src="@drawable/jiaozhun2"
+                    android:layout_centerHorizontal="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/tv_fif_mine"
+                    android:textColor="@drawable/text_selector_color"
+                    android:text="零点校准"
+                    android:layout_below="@+id/iv_fif_mine"
+                    android:layout_centerHorizontal="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"/>
+            </RelativeLayout>
+
+
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>
+
+
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="spingarr">
+        <item></item>
+        <item>9600</item>
+        <item>19200</item>
+        <item>115200</item>
+        <item>38400</item>
+        <item>57600</item>
+    </string-array>
+    <string-array name="type">
+        <item></item>
+        <item>8N1</item>
+        <item>8E1</item>
+        <item>8O1</item>
+        <item>7N1</item>
+        <item>7E1</item>
+        <item>7O1</item>
+
+    </string-array>
+</resources>
