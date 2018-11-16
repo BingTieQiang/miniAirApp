@@ -94,7 +94,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/img_so2"
-                    android:text="二氧化硫(ug/m3)" />
+                    android:text="二氧化硫(mg/m3)" />
 
                 <TextView
                     android:id="@+id/tv_so2"
@@ -121,7 +121,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/img_2"
-                    android:text="二氧化氮(ug/m3)" />
+                    android:text="二氧化氮(mg/m3)" />
 
                 <TextView
                     android:id="@+id/tv_no2"
@@ -182,7 +182,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/img_so4"
-                    android:text="臭氧(ug/m3)" />
+                    android:text="臭氧(mg/m3)" />
 
                 <TextView
                     android:id="@+id/tv_o3"
@@ -209,7 +209,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/img_5"
-                    android:text="Tvoc(ug/m3)" />
+                    android:text="Tvoc(mg/m3)" />
                 <TextView
                     android:id="@+id/tv_voc"
                     android:layout_width="wrap_content"
