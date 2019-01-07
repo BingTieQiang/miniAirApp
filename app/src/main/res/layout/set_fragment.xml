@@ -144,9 +144,8 @@
 
             <LinearLayout
                 android:id="@+id/ll_gaoji"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <ImageView
@@ -159,7 +158,78 @@
                     android:layout_height="wrap_content"
                     android:text="高级设置" />
             </LinearLayout>
+            <LinearLayout
+                android:layout_marginLeft="1dp"
+                android:id="@+id/ll_so2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
 
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:src="@drawable/so2" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="零点基线so2" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/ll_no2"
+                android:layout_marginLeft="1dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:src="@drawable/no2" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="零点基线no2" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginLeft="1dp"
+                android:id="@+id/ll_co"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:src="@drawable/co" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="零点基线co" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginLeft="1dp"
+                android:id="@+id/ll_o3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:src="@drawable/chouyang" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="零点基线O3" />
+            </LinearLayout>
 
 
         </LinearLayout>

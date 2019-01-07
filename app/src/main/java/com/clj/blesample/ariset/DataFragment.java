@@ -54,6 +54,8 @@ public class DataFragment extends BaseFragment implements MsgComeListener {
     @BindView(R.id.switch1)
     SwitchButton switch1;
     Unbinder unbinder;
+    @BindView(R.id.tv_sound)
+    TextView tvSound;
 
     //    ThreadSafe threadSafe;
     @Override
@@ -68,7 +70,17 @@ public class DataFragment extends BaseFragment implements MsgComeListener {
         drawable.setBounds(0, 0, 40, 40);
         tv_mac.setCompoundDrawables(drawable, null, null, null);
         String name = activity.bleDevice.getName();
-        tv_mac.setText("设备名称:" + name);
+
+        if(name == null){
+            tv_mac.setText("匿名蓝牙设备");
+        }
+        else if(name.startsWith("RO")){
+            String newName = name.replace("RO","ENV");
+            tv_mac.setText("设备名称:"+newName);
+        }else {
+            tv_mac.setText("设备名称:"+name);
+        }
+
         Drawable drawable2 = getResources().getDrawable(R.drawable.wangka);
         drawable2.setBounds(0, 0, 40, 40);
         mac_add.setCompoundDrawables(drawable2, null, null, null);
@@ -175,6 +187,9 @@ public class DataFragment extends BaseFragment implements MsgComeListener {
                 } else if (temp.startsWith("pres=")) {
                     temp = temp.replace("pres=", "");
                     tvPress.setText(temp);
+                } else if (temp.startsWith("zs=")) {
+                    temp = temp.replace("zs=", "");
+                    tvSound.setText(temp);
                 }
             }
 
@@ -187,7 +202,6 @@ public class DataFragment extends BaseFragment implements MsgComeListener {
         unbinder.unbind();
 
     }
-
 
 
     class ThreadSafe extends Thread {
@@ -214,7 +228,7 @@ public class DataFragment extends BaseFragment implements MsgComeListener {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_exit:
-                activity.blewrite("sys_config exit",true);
+                activity.blewrite("sys_config exit", true);
                 break;
         }
     }

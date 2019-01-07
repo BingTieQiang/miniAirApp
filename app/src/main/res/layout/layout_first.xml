@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
-                android:text="设备名称：RO560000"
+                android:text="设备名称："
                 android:textSize="17dp" />
 
             <TextView
@@ -62,7 +62,7 @@
                 android:layout_below="@id/tv_mac"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
-                android:text="MAC地址：1A 2B 3C 1A 2B 3C"
+                android:text="MAC地址："
                 android:textSize="17dp" />
         </RelativeLayout>
 
@@ -209,7 +209,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/img_5"
-                    android:text="Tvoc(ug/m3)" />
+                    android:text="Tvoc(mg/m3)" />
                 <TextView
                     android:id="@+id/tv_voc"
                     android:layout_width="wrap_content"
@@ -460,10 +460,34 @@
                     android:text="" />
 
             </RelativeLayout>
-            <Button
-                android:id="@+id/btn_exit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/img_65"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/pm10" />
+
+                <TextView
+                    android:textSize="10sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/img_65"
+                    android:text="PM100(ug/m3)" />
+
+                <TextView
+                    android:id="@+id/tv_pm100"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_toRightOf="@id/img_65"
+                    android:text="" />
+
+            </RelativeLayout>
+
             <TextView
                 android:layout_gravity="center_vertical"
                 android:text="开启接受实时数据"

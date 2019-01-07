@@ -1,15 +1,15 @@
-package com.clj.blesample.set;
+package com.clj.blesample.splash;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.clj.blesample.R;
 
-public class ZeroLineActivity extends AppCompatActivity {
+public class SplashActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_line);
+        setContentView(R.layout.activity_splash);
     }
 }

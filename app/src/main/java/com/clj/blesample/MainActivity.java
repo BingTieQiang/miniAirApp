@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -33,11 +34,17 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.azhon.appupdate.config.UpdateConfiguration;
+import com.azhon.appupdate.listener.OnButtonClickListener;
+import com.azhon.appupdate.listener.OnDownloadListener;
+import com.azhon.appupdate.manager.DownloadManager;
 import com.clj.blesample.DeviceListActivity.DeviceListActivity;
 import com.clj.blesample.adapter.DeviceAdapter;
 import com.clj.blesample.ariset.AirSetActivity;
 import com.clj.blesample.comm.ObserverManager;
 import com.clj.blesample.operation.OperationActivity;
+import com.clj.blesample.tools.HttpUtil;
+import com.clj.blesample.tools.ToastHelper;
 import com.clj.fastble.BleManager;
 import com.clj.fastble.callback.BleGattCallback;
 import com.clj.fastble.callback.BleMtuChangedCallback;
@@ -46,13 +53,20 @@ import com.clj.fastble.callback.BleScanCallback;
 import com.clj.fastble.data.BleDevice;
 import com.clj.fastble.exception.BleException;
 import com.clj.fastble.scan.BleScanRuleConfig;
+import com.loopj.android.http.RequestParams;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import cz.msebera.android.httpclient.Header;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+
+public class MainActivity extends AppCompatActivity implements View.OnClickListener , OnDownloadListener, OnButtonClickListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final int REQUEST_CODE_OPEN_GPS = 1;
@@ -68,25 +82,88 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Animation operatingAnim;
     private DeviceAdapter mDeviceAdapter;
     private ProgressDialog progressDialog;
-
+    DownloadManager manager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-//        startActivity(new Intent(this, DeviceListActivity.class));
-
-
         initView();
-
         BleManager.getInstance().init(getApplication());
         BleManager.getInstance()
                 .enableLog(true)
                 .setReConnectCount(1, 5000)
                 .setConnectOverTime(20000)
                 .setOperateTimeout(5000);
+//        HttpUtil.get("http://app.lulibo.xyz/",new RequestParams(),new HttpUtil.SimpJsonHandle(this){
+//            @Override
+//            public void onStart() {
+//                super.onStart();
+//            }
+//
+//            @Override
+//            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+//                super.onSuccess(statusCode, headers, response);
+//                Log.d("version",response.toString());
+//                int version  =  getVersionCode(MainActivity.this);
+//                try {
+//                    int newversion = response.getInt("version");
+//                    if(version<newversion)
+//                    {
+//                        uPdata(response.getString("url"));
+//                    }
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onFinish() {
+//                super.onFinish();
+//
+//            }
+//
+//
+//        });
 
 
+
+
+
+    }
+
+    private void uPdata(String url) {
+        manager = DownloadManager.getInstance(this);
+        UpdateConfiguration configuration = new UpdateConfiguration()
+                //输出错误日志
+                .setEnableLog(true)
+                //设置自定义的下载
+                //.setHttpManager()
+                //下载完成自动跳动安装页面
+                .setJumpInstallPage(true)
+                //设置对话框背景图片 (图片规范参照demo中的示例图)
+                //.setDialogImage(R.drawable.ic_dialog)
+                //设置按钮的颜色
+                //.setDialogButtonColor(Color.parseColor("#E743DA"))
+                //设置按钮的文字颜色
+                .setDialogButtonTextColor(Color.WHITE)
+                //支持断点下载
+                .setBreakpointDownload(true)
+                //设置是否显示通知栏进度
+                .setShowNotification(true)
+                //设置强制更新
+                .setForcedUpgrade(false)
+                //设置对话框按钮的点击监听
+                .setButtonClickListener(this)
+                //设置下载过程的监听
+                .setOnDownloadListener(this);
+
+        manager.setApkName("app.apk")
+                .setApkUrl(url)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                //可设置，可不设置
+                .setConfiguration(configuration)
+                .download();
     }
 
     @Override
@@ -165,7 +242,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     BleManager.getInstance().disconnect(bleDevice);
                 }
             }
-            //---------------------------------------------------设置点击方法-------------------------------------------------------------------------------------//
             @Override
             public void onDetail(BleDevice bleDevice) {
                 if (BleManager.getInstance().isConnected(bleDevice)) {
@@ -432,4 +508,49 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void start(View view) {
         startActivity(new Intent(MainActivity.this,AirSetActivity.class));
     }
+
+    @Override
+    public void start() {
+
+    }
+
+    @Override
+    public void downloading(int max, int progress) {
+        if((progress%10)==0){
+            ToastHelper.shortToast(MainActivity.this,"下载进度"+progress+" / "+max);
+        }
+
+    }
+
+    @Override
+    public void done(File apk) {
+
+    }
+
+    @Override
+    public void cancel() {
+
+    }
+
+    @Override
+    public void error(Exception e) {
+
+    }
+
+    @Override
+    public void onButtonClick(int id) {
+
+    }
+    public static int getVersionCode(Context mContext) {
+        int versionCode = 0;
+        try {
+            //获取软件版本号，对应AndroidManifest.xml下android:versionCode
+            versionCode = mContext.getPackageManager().
+                    getPackageInfo(mContext.getPackageName(), 0).versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return versionCode;
+    }
+
 }

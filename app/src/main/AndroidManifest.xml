@@ -23,19 +23,22 @@
         </activity>
         <activity android:name=".operation.OperationActivity" />
         <activity android:name=".DeviceListActivity.DeviceListActivity" />
-        <activity android:name=".ariset.AirSetActivity"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
+        <activity
+            android:name=".ariset.AirSetActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"
-            />
-        <activity android:name=".dtu.DtuActivity" />
-        <activity android:name=".set.ZeroLineActivity"
-            android:theme="@style/AppTheme"
-            />
-        <activity
-            android:name=".set.RangeActivity"
-            android:label="@string/title_activity_range"
-            android:theme="@style/AppTheme"/>
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        <activity android:name=".splash.SplashActivity" />
+        <activity android:name=".login.LoginActivity"></activity>
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths_public" />
+        </provider>
     </application>
 
 </manifest>

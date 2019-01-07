@@ -105,9 +105,19 @@ public class DeviceAdapter extends BaseAdapter {
         if (bleDevice != null) {
             boolean isConnected = BleManager.getInstance().isConnected(bleDevice);
             String name = bleDevice.getName();
+            String newName = null;
+            if(name == null){
+                holder.txt_name.setText("匿名蓝牙设备");
+            }
+            else if(name.startsWith("RO")){
+                newName = name.replace("RO","ENV");
+                holder.txt_name.setText(newName);
+            }else {
+                holder.txt_name.setText(name);
+            }
             String mac = bleDevice.getMac();
             int rssi = bleDevice.getRssi();
-            holder.txt_name.setText(name);
+
             holder.txt_mac.setText(mac);
             holder.txt_rssi.setText(String.valueOf(rssi));
             if (isConnected) {

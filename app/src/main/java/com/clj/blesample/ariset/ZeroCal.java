@@ -65,13 +65,7 @@ public class ZeroCal extends BaseFragment implements MsgComeListener {
         aSwitch.setOnCheckedChangeListener(new SwitchButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(SwitchButton compoundButton, boolean b) {
-//                if (activity.type == 100) {
 
-//                    compoundButton.setChecked(false);
-//                    compoundButton.toggle();
-
-//                    return;
-//                }
                 if (b) {
                     activity.blewrite("sys_config enter", true);
                 } else {

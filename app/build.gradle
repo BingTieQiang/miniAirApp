@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.clj.blesample"
-        minSdkVersion 21
+        minSdkVersion 19
         targetSdkVersion 27
         versionCode 232
         versionName "2.3.2"
@@ -15,15 +15,15 @@ android {
     buildTypes {
         debug {
             minifyEnabled false
-            ndk{
-                abiFilters "armeabi"
+            ndk {
+                abiFilters "armeabi", "x86"
             }
         }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            ndk{
-                abiFilters "armeabi"
+            ndk {
+                abiFilters "armeabi", "x86"
             }
         }
     }
@@ -38,6 +38,8 @@ repositories {
     maven { url 'https://jitpack.io' }
 }
 dependencies {
+    compile 'com.loopj.android:android-async-http:1.4.9'
+    implementation 'com.azhon:appupdate:2.0.0'
     compile 'com.contrarywind:Android-PickerView:4.1.6'
     compile 'com.github.zcweng:switch-button:0.0.3@aar'
     compile 'com.github.PhilJay:MPAndroidChart:v2.2.5'
