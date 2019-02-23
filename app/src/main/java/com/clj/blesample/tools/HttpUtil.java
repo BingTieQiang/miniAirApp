@@ -33,52 +33,17 @@ public class HttpUtil {
         client.setTimeout(100000);
         client.post(url,params,responseHandler);
     }
-    //单独写一个方法添加URL
-//    private static String getAbsoluteUrl(String url) {
-//        return BASE_URL + url;
-//    }
-
-    public static class SimpleHandle extends AsyncHttpResponseHandler{
-        public SimpleHandle(Context context){
-            this.context = context;
-        }
-        Context context;
-        @Override
-        public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-
-        }
-
-        @Override
-        public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-            ToastHelper.shortToast(context,"请求错误");
-        }
-
-        @Override
-        public void onStart() {
-            super.onStart();
-        }
-
-        @Override
-        public void onProgress(long bytesWritten, long totalSize) {
-            super.onProgress(bytesWritten, totalSize);
-        }
-
-        @Override
-        public void onFinish() {
-            super.onFinish();
-
-        }
-    }
     public static class SimpJsonHandle extends JsonHttpResponseHandler{
         Context context;
         public SimpJsonHandle(Context context){
+            super("GB2312");
             this.context = context;
         }
 
         @Override
         public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
             super.onFailure(statusCode, headers, throwable, errorResponse);
-            ToastHelper.shortToast(context,"请求错误");
+            ToastHelper.shortToast(context,"网络错误");
         }
 
         @Override

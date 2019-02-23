@@ -1,6 +1,6 @@
 package com.clj.blesample.ariset;
 
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -16,6 +16,13 @@ import com.bigkoo.pickerview.builder.TimePickerBuilder;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
 import com.clj.blesample.R;
+import com.clj.blesample.tools.HttpUtil;
+import com.clj.blesample.tools.SPUtils;
+import com.clj.blesample.tools.ToastHelper;
+import com.loopj.android.http.RequestParams;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -26,6 +33,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by ruiao on 2018/9/6.
@@ -33,6 +41,8 @@ import butterknife.Unbinder;
 
 public class SetFragment extends BaseFragment implements MsgComeListener {
 
+    @BindView(R.id.ll_1)
+    LinearLayout ll1;
     private String pass;
     TimePickerView pvTime;
     Context context;
@@ -42,8 +52,6 @@ public class SetFragment extends BaseFragment implements MsgComeListener {
     LinearLayout llMn;
     @BindView(R.id.ll_zhouqi)
     LinearLayout llZhouqi;
-    @BindView(R.id.ll_dtuset)
-    LinearLayout llDtuset;
     @BindView(R.id.ll_time)
     LinearLayout llTime;
     @BindView(R.id.jizhunxian)
@@ -63,18 +71,18 @@ public class SetFragment extends BaseFragment implements MsgComeListener {
     @BindView(R.id.ll_set2)
     LinearLayout llSet2;
     Unbinder unbinder;
-    @BindView(R.id.et_password)
-    EditText etPassword;
     @BindView(R.id.ll_set1)
+    LinearLayout llSet3;
+    @BindView(R.id.ll_set3)
     LinearLayout llSet1;
-
+    @BindView(R.id.ll_set4)
+    LinearLayout llSet4;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         View v = inflater.inflate(R.layout.set_fragment, container, false);
         unbinder = ButterKnife.bind(this, v);
         context = getContext();
-        etPassword.setHint(getRandomString(3));
         pvTime = new TimePickerBuilder(getContext(), new OnTimeSelectListener() {
             @Override
             public void onTimeSelect(Date date, View v) {
@@ -108,6 +116,8 @@ public class SetFragment extends BaseFragment implements MsgComeListener {
                         if (pass1.equals(getBase64(pass))) {
                             llSet1.setVisibility(View.VISIBLE);
                             llSet2.setVisibility(View.VISIBLE);
+
+
                         } else {
                             Toast.makeText(context, "密码错误", Toast.LENGTH_SHORT).show();
                         }
@@ -117,8 +127,25 @@ public class SetFragment extends BaseFragment implements MsgComeListener {
                 })
                 .setMessage(pass)
                 .setNegativeButton("取消", null).create();
-//        EditText et1 =  (EditText) dialog.findViewById(R.id.edit);
-//        et1.setHint(getRandomString(3));
+
+        String str  = (String) SPUtils.get(context,"quanxian","");
+        if(str.equals("xiao")){
+            long time = Long.parseLong((String)SPUtils.get(context,"time","0"));
+            long systime =  System.currentTimeMillis();
+            if((systime - time)< (1 * 60 * 60 * 1000)){
+                llSet1.setVisibility(View.VISIBLE);
+                llSet2.setVisibility(View.VISIBLE);
+                llSet3.setVisibility(View.VISIBLE);
+                llSet4.setVisibility(View.VISIBLE);
+                ll1.setVisibility(View.VISIBLE);
+            }
+        }else if(str.equals("da")){
+            llSet2.setVisibility(View.VISIBLE);
+            llSet3.setVisibility(View.VISIBLE);
+            llSet4.setVisibility(View.VISIBLE);
+            llSet1.setVisibility(View.VISIBLE);
+            ll1.setVisibility(View.VISIBLE);
+        }
         return v;
     }
 
@@ -150,7 +177,15 @@ public class SetFragment extends BaseFragment implements MsgComeListener {
         if (ss.contains("settime")) {
             ss = ss.replace("settime", "时间");
         }
-
+        if (ss.contains("targ")) {
+            ss = ss.replace("targ", "传感器目标值校准");
+        }
+        if (ss.contains("Rest_Fac")) {
+            ss = ss.replace("Rest_Fac", "传感器回复出厂");
+        }
+        if (ss.contains("satzeor")) {
+            ss = ss.replace("satzeor", "零点校准");
+        }
         Toast.makeText(getContext(), ss, Toast.LENGTH_SHORT).show();
 
 
@@ -168,10 +203,14 @@ public class SetFragment extends BaseFragment implements MsgComeListener {
 
     }
 
-    @OnClick({R.id.ll_mn, R.id.ll_zhouqi, R.id.ll_dtuset, R.id.ll_time, R.id.jizhunxian,
+    @OnClick({R.id.ll_mn, R.id.ll_zhouqi, R.id.ll_time, R.id.jizhunxian,
             R.id.klingdianjiaozhun, R.id.liangchengjiaozhun, R.id.so2,
-            R.id.no2, R.id.co, R.id.o3, R.id.btn_showkb, R.id.ll_gaoji,
-            R.id.ll_so2, R.id.ll_co, R.id.ll_no2, R.id.ll_o3,
+            R.id.no2, R.id.co, R.id.o3,  R.id.ll_gaoji,
+            R.id.ll_so2, R.id.ll_co, R.id.ll_no2, R.id.ll_o3,R.id.ll_mima,
+            R.id.so2mubiao,R.id.no2mubiao,R.id.comubiao,R.id.o3mubiao,
+            R.id.so2chuchang,R.id.no2chuchang,R.id.cochuchang,R.id.o3chuchang,
+            R.id.so2lindian,R.id.no2lindian,R.id.colindian,R.id.o3lindian
+
     })
     public void onViewClicked(View view) {
         View view4 = LayoutInflater.from(context).inflate(R.layout.edit2, null);
@@ -179,18 +218,38 @@ public class SetFragment extends BaseFragment implements MsgComeListener {
         switch (view.getId()) {
             case R.id.ll_mn: //设置MN
                 View view1 = LayoutInflater.from(context).inflate(R.layout.edit, null);
-                dialog = new AlertDialog.Builder(getContext()).setTitle("输入MN号码(24位)").setView(view1).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                dialog = new AlertDialog.Builder(getContext()).setTitle("MN号码（非空，不超过24位）").setView(view1).setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         EditText rt = (EditText) dialog.findViewById(R.id.edit);
 //                        Toast.makeText(context, rt.getText().toString(), Toast.LENGTH_SHORT).show();
                         String ss = rt.getEditableText().toString().trim();
-                        if (ss.length() != 24) {
-                            Toast.makeText(context, "MN为24位，请检查！", Toast.LENGTH_SHORT).show();
+                        if (ss.length() > 24 || ss.length()==0 ) {
+                            Toast.makeText(context, "MN不能为空，小于等于24位！", Toast.LENGTH_SHORT).show();
                             return;
                         }
                         list.add("sys_config enter");
                         list.add("mn_config num=" + ss);
+                        list.add("sys_config exit");
+                        activity.blewrite_withdelay(list);
+                    }
+                }).setNegativeButton("取消", null).create();
+                dialog.show();
+                break;
+                case R.id.ll_mima: //设置密码
+                View view12 = LayoutInflater.from(context).inflate(R.layout.edit, null);
+                dialog = new AlertDialog.Builder(getContext()).setTitle("密码(非空，不超过6位)").setView(view12).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        EditText rt = (EditText) dialog.findViewById(R.id.edit);
+//                        Toast.makeText(context, rt.getText().toString(), Toast.LENGTH_SHORT).show();
+                        String ss = rt.getEditableText().toString().trim();
+                        if (ss.length() > 6 || ss.length()==0 ) {
+                            Toast.makeText(context, "密码不能为空，小于等于6位！", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        list.add("sys_config enter");
+                        list.add("pw_config pw=" + ss);
                         list.add("sys_config exit");
                         activity.blewrite_withdelay(list);
                     }
@@ -214,20 +273,7 @@ public class SetFragment extends BaseFragment implements MsgComeListener {
                 }).setNegativeButton("取消", null).create();
                 dialog.show();
                 break;
-            case R.id.ll_dtuset: //设置零点基准线
 
-                dialog = new AlertDialog.Builder(getContext()).setTitle("零点基线").setView(R.layout.edit).setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        EditText rt = (EditText) dialog.findViewById(R.id.edit);
-                        String ss = rt.getEditableText().toString().trim();
-                        activity.blewrite("sys_config enter", true);
-                        activity.blewrite("cyc_config cyc=" + ss, true);
-                        activity.blewrite("sys_config exit", true);
-                    }
-                }).setNegativeButton("取消", null).create();
-                dialog.show();
-                break;
             case R.id.ll_time: //设置时间
                 View view3 = LayoutInflater.from(context).inflate(R.layout.edit, null);
                 pvTime.show();
@@ -368,20 +414,9 @@ public class SetFragment extends BaseFragment implements MsgComeListener {
                 }).setNegativeButton("取消", null).create();
                 dialog.show();
                 break;
-            case R.id.btn_showkb:
-                String pass = etPassword.getEditableText().toString().trim();
-                String hint = etPassword.getHint().toString();
 
-                if (pass.equals(getBase64(hint))) {
-                    llSet1.setVisibility(View.VISIBLE);
-                    llSet2.setVisibility(View.VISIBLE);
-                } else {
-                    Toast.makeText(context, "密码错误", Toast.LENGTH_SHORT).show();
-                }
-
-                break;
             case R.id.ll_gaoji:
-                dialog1.show();
+                showGaoji();
                 break;
             //R.id.ll_00no2,R.id.ll_00co,R.id.ll_00no2,R.id.ll_00o3
             case R.id.ll_so2:
@@ -444,7 +479,209 @@ public class SetFragment extends BaseFragment implements MsgComeListener {
                 }).setNegativeButton("取消", null).create();
                 dialog.show();
                 break;
+
+            case R.id.so2mubiao:
+                dialog = new AlertDialog.Builder(getContext()).setTitle("二氧化硫目标值").setView(R.layout.edit).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        EditText rt = (EditText) dialog.findViewById(R.id.edit);
+                        String ss = rt.getEditableText().toString().trim();
+                        list.clear();
+                        list.add("sys_config enter");
+                        list.add("satmotarg_config so2=" + ss);
+                        list.add("sys_config exit");
+                        activity.blewrite_withdelay(list);
+                    }
+                }).setNegativeButton("取消", null).create();
+                dialog.show();
+                break;
+            case R.id.no2mubiao:
+                dialog = new AlertDialog.Builder(getContext()).setTitle("二氧化氮目标值").setView(R.layout.edit).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        EditText rt = (EditText) dialog.findViewById(R.id.edit);
+                        String ss = rt.getEditableText().toString().trim();
+                        list.clear();
+                        list.add("sys_config enter");
+                        list.add("satmotarg_config no2=" + ss);
+                        list.add("sys_config exit");
+                        activity.blewrite_withdelay(list);
+                    }
+                }).setNegativeButton("取消", null).create();
+                dialog.show();
+                break;
+            case R.id.comubiao:
+                dialog = new AlertDialog.Builder(getContext()).setTitle("一氧化碳目标值").setView(R.layout.edit).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        EditText rt = (EditText) dialog.findViewById(R.id.edit);
+                        String ss = rt.getEditableText().toString().trim();
+                        list.clear();
+                        list.add("sys_config enter");
+                        list.add("satmotarg_config co=" + ss);
+                        list.add("sys_config exit");
+                        activity.blewrite_withdelay(list);
+                    }
+                }).setNegativeButton("取消", null).create();
+                dialog.show();
+                break;
+            case R.id.o3mubiao:
+                dialog = new AlertDialog.Builder(getContext()).setTitle("臭氧目标值").setView(R.layout.edit).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        EditText rt = (EditText) dialog.findViewById(R.id.edit);
+                        String ss = rt.getEditableText().toString().trim();
+                        list.clear();
+                        list.add("sys_config enter");
+                        list.add("satmotarg_config o3=" + ss);
+                        list.add("sys_config exit");
+                        activity.blewrite_withdelay(list);
+                    }
+                }).setNegativeButton("取消", null).create();
+                dialog.show();
+                break;
+
+            case R.id.so2chuchang:
+                dialog = new AlertDialog.Builder(getContext()).setTitle("二氧化硫传感器回复出厂").setMessage("是否恢复出厂").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        list.clear();
+                        list.add("sys_config enter");
+                        list.add("atmorest_config so2?=");
+                        list.add("sys_config exit");
+                        activity.blewrite_withdelay(list);
+                    }
+                }).setNegativeButton("取消", null).create();
+                dialog.show();
+                break;
+            case R.id.no2chuchang:
+                dialog = new AlertDialog.Builder(getContext()).setTitle("二氧化碳传感器回复出厂").setMessage("是否恢复出厂").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        list.clear();
+                        list.add("sys_config enter");
+                        list.add("atmorest_config no2?=");
+                        list.add("sys_config exit");
+                        activity.blewrite_withdelay(list);
+                    }
+                }).setNegativeButton("取消", null).create();
+                dialog.show();
+                break;
+            case R.id.cochuchang:
+                dialog = new AlertDialog.Builder(getContext()).setTitle("一氧化碳传感器回复出厂").setMessage("是否恢复出厂").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        list.clear();
+                        list.add("sys_config enter");
+                        list.add("atmorest_config co?=");
+                        list.add("sys_config exit");
+                        activity.blewrite_withdelay(list);
+                    }
+                }).setNegativeButton("取消", null).create();
+                dialog.show();
+                break;
+            case R.id.o3chuchang:
+                dialog = new AlertDialog.Builder(getContext()).setTitle("臭氧传感器回复出厂").setMessage("是否恢复出厂").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        list.clear();
+                        list.add("sys_config enter");
+                        list.add("atmorest_config o3?=");
+                        list.add("sys_config exit");
+                        activity.blewrite_withdelay(list);
+                    }
+                }).setNegativeButton("取消", null).create();
+                dialog.show();
+                break;
+                //R.id.so2lindian,R.id.no2lindian,R.id.colindian,R.id.o3lindian
+            case R.id.so2lindian:
+                dialog = new AlertDialog.Builder(getContext()).setTitle("二氧化硫传感器校准零点").setMessage("是否校准零点").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        list.clear();
+                        list.add("sys_config enter");
+                        list.add("satmozeor_config so2?=");
+                        list.add("sys_config exit");
+                        activity.blewrite_withdelay(list);
+                    }
+                }).setNegativeButton("取消", null).create();
+                dialog.show();
+                break;
+            case R.id.no2lindian:
+                dialog = new AlertDialog.Builder(getContext()).setTitle("二氧化氮传感器校准零点").setMessage("是否校准零点").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        list.clear();
+                        list.add("sys_config enter");
+                        list.add("satmozeor_config no2?=");
+                        list.add("sys_config exit");
+                        activity.blewrite_withdelay(list);
+                    }
+                }).setNegativeButton("取消", null).create();
+                dialog.show();
+                break;
+            case R.id.colindian:
+                dialog = new AlertDialog.Builder(getContext()).setTitle("一氧化碳传感器校准零点").setMessage("是否校准零点").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        list.clear();
+                        list.add("sys_config enter");
+                        list.add("satmozeor_config co?=");
+                        list.add("sys_config exit");
+                        activity.blewrite_withdelay(list);
+                    }
+                }).setNegativeButton("取消", null).create();
+                dialog.show();
+                break;
+            case R.id.o3lindian:
+                dialog = new AlertDialog.Builder(getContext()).setTitle("臭氧传感器校准零点").setMessage("是否校准零点").setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        list.clear();
+                        list.add("sys_config enter");
+                        list.add("satmozeor_config o3?=");
+                        list.add("sys_config exit");
+                        activity.blewrite_withdelay(list);
+                    }
+                }).setNegativeButton("取消", null).create();
+                dialog.show();
+                break;
         }
+    }
+
+    private void showGaoji() {
+        RequestParams pa = new RequestParams();
+        pa.put("username",(String) SPUtils.get(context,"username","") );
+        HttpUtil.get("http://110.249.145.94:33333/quanxian.asp",pa,new HttpUtil.SimpJsonHandle(context){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+
+                try {
+                    String success = response.getString("yunxu");
+                    if(success.equals("0")){
+                        llSet1.setVisibility(View.VISIBLE);
+                        llSet2.setVisibility(View.VISIBLE);
+                        llSet3.setVisibility(View.VISIBLE);
+                        llSet4.setVisibility(View.VISIBLE);
+                        ll1.setVisibility(View.VISIBLE);
+                        SPUtils.put(context,"time",""+System.currentTimeMillis());
+                    }else {
+
+                        ToastHelper.shortToast(context,"无权限");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                super.onSuccess(statusCode, headers, response);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+                super.onFailure(statusCode, headers, throwable, errorResponse);
+                ToastHelper.shortToast(context,"网络错误");
+            }
+        });
     }
 
     public static String getBase64(String base1) {

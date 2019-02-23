@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -84,23 +90,6 @@
                     android:text="上传周期" />
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/ll_dtuset"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:src="@drawable/zuobiaozhou" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="零点基线" />
-            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/ll_time"
@@ -119,6 +108,23 @@
                     android:layout_height="wrap_content"
                     android:text="校准时间" />
             </LinearLayout>
+            <LinearLayout
+                android:id="@+id/ll_mima"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:src="@drawable/password" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="设置密码" />
+            </LinearLayout>
         </LinearLayout>
 
         <View
@@ -126,6 +132,7 @@
             android:layout_height="20dp"
             android:layout_marginTop="15dp"
             android:background="#f2f2f2" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -135,17 +142,18 @@
             android:typeface="sans" />
 
         <LinearLayout
-            android:visibility="visible"
-
             android:layout_width="match_parent"
+
             android:layout_height="70dp"
             android:layout_marginTop="10dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="visible">
 
             <LinearLayout
                 android:id="@+id/ll_gaoji"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <ImageView
@@ -158,79 +166,74 @@
                     android:layout_height="wrap_content"
                     android:text="高级设置" />
             </LinearLayout>
+
             <LinearLayout
-                android:layout_marginLeft="1dp"
-                android:id="@+id/ll_so2"
-                android:layout_width="wrap_content"
+                android:visibility="gone"
+                android:id="@+id/ll_1"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="3">
 
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:src="@drawable/so2" />
-
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_weight="1"
+                    android:id="@+id/ll_so2"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="零点基线so2" />
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/ll_no2"
-                android:layout_marginLeft="1dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                    android:layout_marginLeft="1dp"
 
-                android:orientation="vertical">
+                    android:orientation="vertical">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:src="@drawable/no2" />
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:src="@drawable/so2" />
 
-                <TextView
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="零点基线so2" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_no2"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="零点基线no2" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_marginLeft="1dp"
-                android:id="@+id/ll_co"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
 
-                android:orientation="vertical">
+                    android:layout_weight="1"
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:src="@drawable/co" />
+                    android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:src="@drawable/no2" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="零点基线no2" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_co"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="零点基线co" />
+                    android:layout_weight="1"
+
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:src="@drawable/co" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="零点基线co" />
+                </LinearLayout>
+
             </LinearLayout>
-            <LinearLayout
-                android:layout_marginLeft="1dp"
-                android:id="@+id/ll_o3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:src="@drawable/chouyang" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="零点基线O3" />
-            </LinearLayout>
-
 
         </LinearLayout>
 
@@ -239,31 +242,6 @@
             android:layout_height="10dp"
             android:layout_marginTop="1dp"
             android:background="#f2f2f2" />
-
-        <LinearLayout
-            android:visibility="gone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp">
-
-            <EditText
-                android:id="@+id/et_password"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="5"
-                android:maxLines="1" />
-
-            <Button
-                android:id="@+id/btn_showkb"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1.5"
-                android:background="@drawable/big_bac2"
-                android:text="展开"
-                android:textColor="@color/white" />
-        </LinearLayout>
 
 
         <LinearLayout
@@ -329,22 +307,25 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ll_o3"
                 android:layout_width="0dp"
+
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="1dp"
                 android:layout_weight="1"
-                android:orientation="vertical"
-                android:visibility="invisible">
+                android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
-                    android:src="@drawable/eryanghualiu" />
+                    android:src="@drawable/chouyang" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="校准时间" />
+                    android:text="零点基线O3" />
             </LinearLayout>
+
         </LinearLayout>
 
         <View
@@ -354,12 +335,12 @@
             android:background="#f2f2f2" />
 
         <LinearLayout
-            android:visibility="gone"
             android:id="@+id/ll_set2"
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:layout_marginTop="10dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <LinearLayout
                 android:id="@+id/so2"
@@ -432,9 +413,252 @@
                     android:layout_height="wrap_content"
                     android:text="O3_K/B值" />
             </LinearLayout>
+
+
         </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:layout_marginTop="5dp"
+            android:background="#f2f2f2" />
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/ll_set3"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:id="@+id/so2mubiao"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:src="@drawable/eryanghualiu" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SO2目标值" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/no2mubiao"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:src="@drawable/no2" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="NO2目标值" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/comubiao"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:src="@drawable/co" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="CO目标值" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/o3mubiao"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:src="@drawable/chouyang" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="O3目标值" />
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/ll_set4"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:id="@+id/so2chuchang"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:src="@drawable/eryanghualiu" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SO2恢复出厂" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/no2chuchang"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:src="@drawable/no2" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="NO2恢复出厂" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/cochuchang"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:src="@drawable/co" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="CO恢复出厂" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/o3chuchang"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:src="@drawable/chouyang" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="O3恢复出厂" />
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+
+            android:id="@+id/ll_set5"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:id="@+id/so2lindian"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:src="@drawable/eryanghualiu" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="SO2校零" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/no2lindian"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:src="@drawable/no2" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="NO2校零" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/colindian"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:src="@drawable/co" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="CO校零" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/o3lindian"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:src="@drawable/chouyang" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="O3校零" />
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
+    </ScrollView>
 
 </android.support.constraint.ConstraintLayout>

@@ -51,6 +51,8 @@ public class DataFragment extends BaseFragment implements MsgComeListener {
     TextView tvPress;
     @BindView(R.id.tv_wet)
     TextView tvWet;
+    @BindView(R.id.tv_pm100)
+    TextView pm100;
     @BindView(R.id.switch1)
     SwitchButton switch1;
     Unbinder unbinder;
@@ -88,14 +90,7 @@ public class DataFragment extends BaseFragment implements MsgComeListener {
         mac_add.setText("设备MAC:" + add);
 
         unbinder = ButterKnife.bind(this, v);
-//        switch1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-//                activity.cmd = "r+realdata?";
-//                activity.startCmd = b;
-//
-//            }
-//        });
+
         switch1.setOnCheckedChangeListener(new SwitchButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(SwitchButton view, boolean isChecked) {
@@ -131,12 +126,7 @@ public class DataFragment extends BaseFragment implements MsgComeListener {
 
     @Override
     public void getMsg(String res) {
-//        Pattern pattern = Pattern.compile("");
-//        Matcher matcher = pattern.matcher(res);
-//        if(matcher.find()){
-//            matcher.group();
-//        }
-//        aha(res);
+
         shownon(res);
         Log.d("msg", res);
         Toast.makeText(getActivity(), res, Toast.LENGTH_SHORT).show();
@@ -190,6 +180,9 @@ public class DataFragment extends BaseFragment implements MsgComeListener {
                 } else if (temp.startsWith("zs=")) {
                     temp = temp.replace("zs=", "");
                     tvSound.setText(temp);
+                }else if (temp.startsWith("pm100=")) {
+                    temp = temp.replace("pm100=", "");
+                    pm100.setText(temp);
                 }
             }
 
@@ -221,15 +214,6 @@ public class DataFragment extends BaseFragment implements MsgComeListener {
                     e.printStackTrace();
                 }
             }
-        }
-    }
-
-    @OnClick({R.id.btn_exit})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.btn_exit:
-                activity.blewrite("sys_config exit", true);
-                break;
         }
     }
 }

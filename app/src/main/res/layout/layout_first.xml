@@ -434,9 +434,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <RelativeLayout
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="50dp"
-                android:layout_weight="1">
+                >
 
                 <ImageView
                     android:id="@+id/img_64"
@@ -461,15 +461,15 @@
 
             </RelativeLayout>
             <RelativeLayout
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="50dp"
-                android:layout_weight="1">
+                >
 
                 <ImageView
                     android:id="@+id/img_65"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:src="@drawable/pm10" />
+                    android:src="@drawable/pm100" />
 
                 <TextView
                     android:textSize="10sp"
@@ -488,21 +488,22 @@
 
             </RelativeLayout>
 
+
+        </LinearLayout>
+        <LinearLayout
+            android:gravity="right"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
             <TextView
                 android:layout_gravity="center_vertical"
                 android:text="开启接受实时数据"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <com.suke.widget.SwitchButton
-
                 android:id="@+id/switch1"
-
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </LinearLayout>
-
-
-
     </LinearLayout>
     </ScrollView>
 
