@@ -2,6 +2,7 @@ package com.clj.blesample;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothGatt;
@@ -9,12 +10,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -30,21 +32,25 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.azhon.appupdate.config.UpdateConfiguration;
-import com.azhon.appupdate.listener.OnButtonClickListener;
-import com.azhon.appupdate.listener.OnDownloadListener;
-import com.azhon.appupdate.manager.DownloadManager;
-import com.clj.blesample.DeviceListActivity.DeviceListActivity;
+
+import com.allenliu.versionchecklib.v2.AllenVersionChecker;
+import com.allenliu.versionchecklib.v2.builder.DownloadBuilder;
+import com.allenliu.versionchecklib.v2.builder.NotificationBuilder;
+import com.allenliu.versionchecklib.v2.builder.UIData;
+import com.allenliu.versionchecklib.v2.callback.CustomDownloadingDialogListener;
+import com.allenliu.versionchecklib.v2.callback.CustomVersionDialogListener;
+import com.allenliu.versionchecklib.v2.callback.RequestVersionListener;
 import com.clj.blesample.adapter.DeviceAdapter;
 import com.clj.blesample.ariset.AirSetActivity;
 import com.clj.blesample.comm.ObserverManager;
 import com.clj.blesample.operation.OperationActivity;
 import com.clj.blesample.tools.HttpUtil;
-import com.clj.blesample.tools.ToastHelper;
+import com.clj.blesample.ui.BaseDialog;
 import com.clj.fastble.BleManager;
 import com.clj.fastble.callback.BleGattCallback;
 import com.clj.fastble.callback.BleMtuChangedCallback;
@@ -58,7 +64,6 @@ import com.loopj.android.http.RequestParams;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -66,12 +71,12 @@ import java.util.UUID;
 import cz.msebera.android.httpclient.Header;
 
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener , OnDownloadListener, OnButtonClickListener {
-
+public class MainActivity extends AppCompatActivity implements View.OnClickListener  {
+    private DownloadBuilder builder;
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final int REQUEST_CODE_OPEN_GPS = 1;
     private static final int REQUEST_CODE_PERMISSION_LOCATION = 2;
-
+    Context context;
     private LinearLayout layout_setting;
     private TextView txt_setting;
     private Button btn_scan;
@@ -82,11 +87,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Animation operatingAnim;
     private DeviceAdapter mDeviceAdapter;
     private ProgressDialog progressDialog;
-    DownloadManager manager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        context = this;
         initView();
         BleManager.getInstance().init(getApplication());
         BleManager.getInstance()
@@ -94,77 +100,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .setReConnectCount(1, 5000)
                 .setConnectOverTime(20000)
                 .setOperateTimeout(5000);
-//        HttpUtil.get("http://app.lulibo.xyz/",new RequestParams(),new HttpUtil.SimpJsonHandle(this){
-//            @Override
-//            public void onStart() {
-//                super.onStart();
-//            }
-//
-//            @Override
-//            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-//                super.onSuccess(statusCode, headers, response);
-//                Log.d("version",response.toString());
-//                int version  =  getVersionCode(MainActivity.this);
-//                try {
-//                    int newversion = response.getInt("version");
-//                    if(version<newversion)
-//                    {
-//                        uPdata(response.getString("url"));
-//                    }
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onFinish() {
-//                super.onFinish();
-//
-//            }
-//
-//
-//        });
 
-
-
-
-
+        checkVersion();
     }
 
-    private void uPdata(String url) {
-        manager = DownloadManager.getInstance(this);
-        UpdateConfiguration configuration = new UpdateConfiguration()
-                //输出错误日志
-                .setEnableLog(true)
-                //设置自定义的下载
-                //.setHttpManager()
-                //下载完成自动跳动安装页面
-                .setJumpInstallPage(true)
-                //设置对话框背景图片 (图片规范参照demo中的示例图)
-                //.setDialogImage(R.drawable.ic_dialog)
-                //设置按钮的颜色
-                //.setDialogButtonColor(Color.parseColor("#E743DA"))
-                //设置按钮的文字颜色
-                .setDialogButtonTextColor(Color.WHITE)
-                //支持断点下载
-                .setBreakpointDownload(true)
-                //设置是否显示通知栏进度
-                .setShowNotification(true)
-                //设置强制更新
-                .setForcedUpgrade(false)
-                //设置对话框按钮的点击监听
-                .setButtonClickListener(this)
-                //设置下载过程的监听
-                .setOnDownloadListener(this);
 
-        manager.setApkName("app.apk")
-                .setApkUrl(url)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                //可设置，可不设置
-                .setConfiguration(configuration)
-                .download();
-    }
 
     @Override
     protected void onResume() {
@@ -263,6 +203,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         mDeviceAdapter.notifyDataSetChanged();
     }
+
+
 
     private void setScanRule() {
         String[] uuids;
@@ -505,42 +447,59 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    public void start(View view) {
-        startActivity(new Intent(MainActivity.this,AirSetActivity.class));
+    private void sendRequest() {
+
+        builder = AllenVersionChecker
+                .getInstance()
+                .requestVersion()
+                .setRequestUrl("http://app.lulibo.xyz/")
+                .request(new RequestVersionListener() {
+                    @Nullable
+                    @Override
+                    public UIData onRequestVersionSuccess(String result) {
+                        try {
+                            JSONObject json = new JSONObject(result);
+                            return crateUIData(json.getString("title"),json.getString("context"),json.getString("url"));
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                        return crateUIData("","","");
+                    }
+
+                    @Override
+                    public void onRequestVersionFailure(String message) {
+                        Toast.makeText(context, "request failed", Toast.LENGTH_SHORT).show();
+
+                    }
+                }).setShowDownloadingDialog(true)
+                .setShowNotification(true)
+                .setShowDownloadFailDialog(true)
+                .setCustomVersionDialogListener(createCustomDialogTwo())
+                .setCustomDownloadingDialogListener(createCustomDownloadingDialog())
+                .setDownloadAPKPath(Environment.getExternalStorageDirectory() + "/TheAppLoader/");
+        builder.executeMission(this);
     }
 
-    @Override
-    public void start() {
-
+    private void checkVersion() {
+        HttpUtil.get("http://app.lulibo.xyz/",new RequestParams(),new HttpUtil.SimpJsonHandle(context){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                super.onSuccess(statusCode, headers, response);
+                try {
+                    int version = response.getInt("version");
+                    if(getVersionCode(context)<version){
+                        sendRequest();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
-    @Override
-    public void downloading(int max, int progress) {
-        if((progress%10)==0){
-            ToastHelper.shortToast(MainActivity.this,"下载进度"+progress+" / "+max);
-        }
 
-    }
-
-    @Override
-    public void done(File apk) {
-
-    }
-
-    @Override
-    public void cancel() {
-
-    }
-
-    @Override
-    public void error(Exception e) {
-
-    }
-
-    @Override
-    public void onButtonClick(int id) {
-
-    }
     public static int getVersionCode(Context mContext) {
         int versionCode = 0;
         try {
@@ -552,5 +511,54 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         return versionCode;
     }
+
+
+
+    private NotificationBuilder createCustomNotification() {
+        return NotificationBuilder.create()
+                .setRingtone(true)
+                .setIcon(R.mipmap.ic_launcher)
+                .setTicker("custom_ticker")
+                .setContentTitle("custom title")
+                .setContentText("custom 内容 ");
+    }
+    private UIData crateUIData(String title,String context,String url) {
+        UIData uiData = UIData.create();
+        uiData.setTitle(title);
+        uiData.setDownloadUrl(url);
+        uiData.setContent(context);
+        return uiData;
+    }
+
+    private CustomVersionDialogListener createCustomDialogTwo() {
+        return (context, versionBundle) -> {
+            BaseDialog baseDialog = new BaseDialog(context, R.style.BaseDialog, R.layout.custom_dialog_two_layout);
+            TextView textView = baseDialog.findViewById(R.id.tv_msg);
+            TextView title = baseDialog.findViewById(R.id.tv_title);
+            title.setText(versionBundle.getTitle());
+            textView.setText(versionBundle.getContent());
+            baseDialog.setCanceledOnTouchOutside(true);
+            return baseDialog;
+        };
+    }
+
+    private CustomDownloadingDialogListener createCustomDownloadingDialog() {
+        return new CustomDownloadingDialogListener() {
+            @Override
+            public Dialog getCustomDownloadingDialog(Context context, int progress, UIData versionBundle) {
+                BaseDialog baseDialog = new BaseDialog(context, R.style.BaseDialog, R.layout.custom_download_layout);
+                return baseDialog;
+            }
+
+            @Override
+            public void updateUI(Dialog dialog, int progress, UIData versionBundle) {
+                TextView tvProgress = dialog.findViewById(R.id.tv_progress);
+                ProgressBar progressBar = dialog.findViewById(R.id.pb);
+                progressBar.setProgress(progress);
+                tvProgress.setText(getString(R.string.versionchecklib_progress, progress));
+            }
+        };
+    }
+
 
 }

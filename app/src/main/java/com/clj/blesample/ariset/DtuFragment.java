@@ -171,30 +171,31 @@ public class DtuFragment extends BaseFragment implements MsgComeListener {
                 list.clear();
                 String cmd="dtu_config";
                 String ip = etIp.getText().toString().trim();
-                if (!"".equals(ip)) {
+//                if (!"".equals(ip)) {
                     cmd = cmd + " ip=" +ip;
-                }
+//                }
+
                 String port = etPort.getText().toString().trim();
-                if (!"".equals(port)) {
+//                if (!"".equals(port)) {
                     cmd = cmd + " port="+port;
-                }
+//                }
                 String apn = etApn.getText().toString().trim();
-                if (!"".equals(apn)) {
+//                if (!"".equals(apn)) {
                     cmd = cmd + " wireapn="+apn;
-                }
+//                }
                 String apn_center= etApnCenter.getText().toString().trim();
-                if (!"".equals(apn_center)) {
+//                if (!"".equals(apn_center)) {
                     cmd = cmd + " apndial="+apn_center;
-                }
+//                }
                 String chuankou = tvChuankoubao.getText().toString();
-                if (!"".equals(chuankou)) {
+//                if (!"".equals(chuankou)) {
                     cmd = cmd + " dscd="+chuankou;
-                }
+//                }
 
                 String bord = tvBord.getText().toString();
-                if (!"".equals(bord)) {
+//                if (!"".equals(bord)) {
                     cmd = cmd + " baud="+bord;
-                }
+//                }
                 list.add("sys_config enter");
                 list.add(cmd);
 

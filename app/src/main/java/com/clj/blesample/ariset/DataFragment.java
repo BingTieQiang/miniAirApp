@@ -129,7 +129,7 @@ public class DataFragment extends BaseFragment implements MsgComeListener {
 
         shownon(res);
         Log.d("msg", res);
-        Toast.makeText(getActivity(), res, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getActivity(), res, Toast.LENGTH_SHORT).show();
 
     }
 

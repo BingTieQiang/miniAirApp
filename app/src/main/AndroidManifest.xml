@@ -9,16 +9,16 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:screenOrientation="portrait"
         android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
 
         </activity>
         <activity android:name=".operation.OperationActivity" />
-        <activity android:name=".DeviceListActivity.DeviceListActivity" />
         <activity
             android:name=".ariset.AirSetActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"

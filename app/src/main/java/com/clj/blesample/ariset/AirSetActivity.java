@@ -19,6 +19,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.clj.blesample.R;
+import com.clj.blesample.comm.Observer;
 import com.clj.fastble.BleManager;
 import com.clj.fastble.callback.BleNotifyCallback;
 import com.clj.fastble.callback.BleWriteCallback;
@@ -34,7 +35,7 @@ import java.util.TimerTask;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class AirSetActivity extends AppCompatActivity implements View.OnClickListener {
+public class AirSetActivity extends AppCompatActivity implements View.OnClickListener , Observer {
     public boolean canPageChange = true;
     boolean startCmd = false;
     public int type = 100; //100 没选择气体  0"二氧化碳",1 "二氧化氮",2 "一氧化碳",3"臭氧"
@@ -310,8 +311,18 @@ public class AirSetActivity extends AppCompatActivity implements View.OnClickLis
 
         }
     }
+    public void disconet(){
+        if (BleManager.getInstance().isConnected(bleDevice)) {
+            BleManager.getInstance().disconnect(bleDevice);
+        }
+
+    }
 
 
-
-
+    @Override
+    public void disConnected(BleDevice bleDevice) {
+        if (bleDevice != null && bleDevice != null && bleDevice.getKey().equals(bleDevice.getKey())) {
+            finish();
+        }
+    }
 }

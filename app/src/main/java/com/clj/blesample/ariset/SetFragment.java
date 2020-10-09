@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -151,6 +152,7 @@ public class SetFragment extends BaseFragment implements MsgComeListener {
 
     @Override
     public void getMsg(String res) {
+        Log.d("msg",res.toString());
         String ss = res;
         if (ss.contains("sjzro")) {
             Toast.makeText(getContext(), "进入设置", Toast.LENGTH_SHORT).show();
@@ -186,6 +188,15 @@ public class SetFragment extends BaseFragment implements MsgComeListener {
         if (ss.contains("satzeor")) {
             ss = ss.replace("satzeor", "零点校准");
         }
+
+        if (ss.contains("ble")) {
+            ss = ss.replace("ble", "设置设备名称");
+            if(ss.contains("成功")){
+                AirSetActivity activity = (AirSetActivity) getActivity();
+                activity.disconet();
+            }
+
+        }
         Toast.makeText(getContext(), ss, Toast.LENGTH_SHORT).show();
 
 
@@ -209,7 +220,7 @@ public class SetFragment extends BaseFragment implements MsgComeListener {
             R.id.ll_so2, R.id.ll_co, R.id.ll_no2, R.id.ll_o3,R.id.ll_mima,
             R.id.so2mubiao,R.id.no2mubiao,R.id.comubiao,R.id.o3mubiao,
             R.id.so2chuchang,R.id.no2chuchang,R.id.cochuchang,R.id.o3chuchang,
-            R.id.so2lindian,R.id.no2lindian,R.id.colindian,R.id.o3lindian
+            R.id.so2lindian,R.id.no2lindian,R.id.colindian,R.id.o3lindian,R.id.ll_mingcehng
 
     })
     public void onViewClicked(View view) {
@@ -287,7 +298,7 @@ public class SetFragment extends BaseFragment implements MsgComeListener {
                         EditText et1 = (EditText) dialog.findViewById(R.id.edit1);
                         EditText et2 = (EditText) dialog.findViewById(R.id.edit2);
                         String ss1 = et1.getEditableText().toString().trim();
-                        String ss2 = et1.getEditableText().toString().trim();
+                        String ss2 = et2.getEditableText().toString().trim();
                         list.clear();
                         list.add("sys_config enter");
                         list.add("pm25kb_config k=" + ss1 + " " + "b=" + ss2);
@@ -306,7 +317,7 @@ public class SetFragment extends BaseFragment implements MsgComeListener {
                         EditText et1 = (EditText) dialog.findViewById(R.id.edit1);
                         EditText et2 = (EditText) dialog.findViewById(R.id.edit2);
                         String ss1 = et1.getEditableText().toString().trim();
-                        String ss2 = et1.getEditableText().toString().trim();
+                        String ss2 = et2.getEditableText().toString().trim();
                         list.clear();
                         list.add("sys_config enter");
                         list.add("pm10kb_config k=" + ss1 + " " + "b=" + ss2);
@@ -325,7 +336,7 @@ public class SetFragment extends BaseFragment implements MsgComeListener {
                         EditText et1 = (EditText) dialog.findViewById(R.id.edit1);
                         EditText et2 = (EditText) dialog.findViewById(R.id.edit2);
                         String ss1 = et1.getEditableText().toString().trim();
-                        String ss2 = et1.getEditableText().toString().trim();
+                        String ss2 = et2.getEditableText().toString().trim();
                         list.clear();
                         list.add("sys_config enter");
                         list.add("tvockb_config k=" + ss1 + " " + "b=" + ss2);
@@ -343,7 +354,7 @@ public class SetFragment extends BaseFragment implements MsgComeListener {
                         EditText et1 = (EditText) dialog.findViewById(R.id.edit1);
                         EditText et2 = (EditText) dialog.findViewById(R.id.edit2);
                         String ss1 = et1.getEditableText().toString().trim();
-                        String ss2 = et1.getEditableText().toString().trim();
+                        String ss2 = et2.getEditableText().toString().trim();
 
 
                         list.clear();
@@ -363,7 +374,7 @@ public class SetFragment extends BaseFragment implements MsgComeListener {
                         EditText et1 = (EditText) dialog.findViewById(R.id.edit1);
                         EditText et2 = (EditText) dialog.findViewById(R.id.edit2);
                         String ss1 = et1.getEditableText().toString().trim();
-                        String ss2 = et1.getEditableText().toString().trim();
+                        String ss2 = et2.getEditableText().toString().trim();
                         list.clear();
                         list.add("sys_config enter");
                         list.add("no2kb_config k=" + ss1 + " " + "b=" + ss2);
@@ -381,7 +392,7 @@ public class SetFragment extends BaseFragment implements MsgComeListener {
                         EditText et1 = (EditText) dialog.findViewById(R.id.edit1);
                         EditText et2 = (EditText) dialog.findViewById(R.id.edit2);
                         String ss1 = et1.getEditableText().toString().trim();
-                        String ss2 = et1.getEditableText().toString().trim();
+                        String ss2 = et2.getEditableText().toString().trim();
 
                         list.clear();
                         list.add("sys_config enter");
@@ -400,7 +411,7 @@ public class SetFragment extends BaseFragment implements MsgComeListener {
                         EditText et1 = (EditText) dialog.findViewById(R.id.edit1);
                         EditText et2 = (EditText) dialog.findViewById(R.id.edit2);
                         String ss1 = et1.getEditableText().toString().trim();
-                        String ss2 = et1.getEditableText().toString().trim();
+                        String ss2 = et2.getEditableText().toString().trim();
 
 
                         list.clear();
@@ -645,6 +656,21 @@ public class SetFragment extends BaseFragment implements MsgComeListener {
                     }
                 }).setNegativeButton("取消", null).create();
                 dialog.show();
+                break;
+                case R.id.ll_mingcehng:  //设置微型空气站密码
+                    dialog = new AlertDialog.Builder(getContext()).setTitle("设置微型空气站名称").setView(R.layout.edit).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            EditText rt = (EditText) dialog.findViewById(R.id.edit);
+                            String ss = rt.getEditableText().toString().trim();
+                            list.clear();
+                            list.add("sys_config enter");
+                            list.add("ble_config name=" + ss);
+                            list.add("sys_config exit");
+                            activity.blewrite_withdelay(list);
+                        }
+                    }).setNegativeButton("取消", null).create();
+                    dialog.show();
                 break;
         }
     }

@@ -36,7 +36,7 @@ public class HttpUtil {
     public static class SimpJsonHandle extends JsonHttpResponseHandler{
         Context context;
         public SimpJsonHandle(Context context){
-            super("GB2312");
+
             this.context = context;
         }
 

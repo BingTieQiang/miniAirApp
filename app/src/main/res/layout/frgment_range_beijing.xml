@@ -139,7 +139,6 @@
                     android:text="设置" />
             </LinearLayout>
             <LinearLayout
-                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <EditText
@@ -155,7 +154,6 @@
                     android:text="设置" />
             </LinearLayout>
             <LinearLayout
-                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <EditText
@@ -171,7 +169,6 @@
                     android:text="设置" />
             </LinearLayout>
             <LinearLayout
-                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <EditText
@@ -187,7 +184,6 @@
                     android:text="设置" />
             </LinearLayout>
             <LinearLayout
-                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <EditText
@@ -203,7 +199,6 @@
                     android:text="设置" />
             </LinearLayout>
             <LinearLayout
-                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <EditText
@@ -219,7 +214,6 @@
                     android:text="设置" />
             </LinearLayout>
             <LinearLayout
-                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <EditText

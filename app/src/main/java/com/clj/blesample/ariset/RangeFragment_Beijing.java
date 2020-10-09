@@ -27,7 +27,7 @@ import butterknife.Unbinder;
  * Created by ruiao on 2018/10/31.
  */
 
-public class RangeFragment extends BaseFragment implements MsgComeListener {
+public class RangeFragment_Beijing extends BaseFragment implements MsgComeListener {
     int isalldone = 0;
     int dele = 2; //图像对比度
     @BindView(R.id.seekbar)
@@ -119,7 +119,7 @@ public class RangeFragment extends BaseFragment implements MsgComeListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO Auto-generated method stub
-        View v = inflater.inflate(R.layout.frgment_range, container, false);
+        View v = inflater.inflate(R.layout.frgment_range_beijing, container, false);
         activity = (AirSetActivity) getActivity();
 
         unbinder = ButterKnife.bind(this, v);
@@ -273,9 +273,7 @@ public class RangeFragment extends BaseFragment implements MsgComeListener {
 
     }
 
-    @OnClick({R.id.btn_set1, R.id.btn_set2, R.id.btn_set3, R.id.btn_set4,
-            R.id.btn_set5,R.id.btn_set6,R.id.btn_set7,R.id.btn_set8,
-            R.id.btn_set9,R.id.btn_set10,R.id.btn_over})
+    @OnClick({R.id.btn_set1, R.id.btn_set2, R.id.btn_set3, R.id.btn_set4, R.id.btn_set5,R.id.btn_set6,R.id.btn_set7,R.id.btn_set8,R.id.btn_set9,R.id.btn_set10,R.id.btn_over})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_set1:  //n0

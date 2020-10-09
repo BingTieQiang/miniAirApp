@@ -13,6 +13,7 @@ import com.clj.blesample.R;
 import com.clj.blesample.tools.HttpUtil;
 import com.clj.blesample.tools.SPUtils;
 import com.clj.blesample.tools.ToastHelper;
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 import org.json.JSONException;
@@ -49,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
         pa.add("password",password.trim());
         String ANDROID_ID = Settings.System.getString(getContentResolver(), Settings.System.ANDROID_ID);
         pa.add("uid",ANDROID_ID);
-        HttpUtil.get("http://110.249.145.94:33333/login.asp",pa,new HttpUtil.SimpJsonHandle(context){
+        HttpUtil.get("http://27.128.180.188:33333/login.asp",pa,new JsonHttpResponseHandler("GB2312"){
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                  try {
